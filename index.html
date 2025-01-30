@@ -9,6 +9,7 @@
             background-color: pink;
             text-align: center;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         .container {
             margin-top: 20vh;
@@ -51,18 +52,35 @@
         }
         @keyframes hearts {
             0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(-100vh); opacity: 0; }
         }
         .heart {
             position: absolute;
             font-size: 2em;
             color: red;
-            animation: hearts 2s linear infinite;
+            animation: hearts 5s linear infinite;
+        }
+        .envelope-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            flex-direction: column;
+        }
+        .envelope {
+            font-size: 2.5em;
+            color: black;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="envelope-container" id="envelope-page">
+        <div class="envelope" onclick="showProposalPage()">✉️ Wanna see a surprise? ✉️</div>
+    </div>
+    
+    <div class="container" id="proposal-page" style="display: none;">
         <h1>Will you be my Valentine? 💖</h1>
         <div class="buttons">
             <button onclick="showMessage(true)">Yes</button>
@@ -73,7 +91,14 @@
             <img id="response-image" src="" alt="Us">
         </div>
     </div>
+    
     <script>
+        function showProposalPage() {
+            document.getElementById("envelope-page").style.display = "none";
+            document.getElementById("proposal-page").style.display = "block";
+            createHearts();
+        }
+        
         function showMessage(isYes) {
             let message = document.getElementById("message");
             let imageContainer = document.getElementById("image-container");
@@ -89,20 +114,19 @@
             
             message.style.display = "block";
             imageContainer.style.display = "block";
-            createHearts();
         }
 
         function createHearts() {
-            for (let i = 0; i < 10; i++) {
+            setInterval(() => {
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤️";
                 heart.classList.add("heart");
                 heart.style.left = Math.random() * 100 + "vw";
-                heart.style.top = "50vh";
-                heart.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                heart.style.top = "100vh";
+                heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
                 document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 2000);
-            }
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
         }
     </script>
 </body>
